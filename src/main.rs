@@ -30,7 +30,7 @@ fn run(mut terminal: DefaultTerminal) -> io::Result<()> {
 
 fn draw(frame: &mut Frame) {
     let area = frame.area();
-    let layout = Layout::vertical([Constraint::Ratio(1, 10), Constraint::Ratio(8, 10)]);
+    let layout = Layout::vertical([Constraint::Length(3), Constraint::Ratio(8, 10)]);
     let [search, results] = layout.areas(area);
 
     frame.render_widget(
