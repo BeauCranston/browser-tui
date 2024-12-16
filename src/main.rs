@@ -2,9 +2,9 @@ use std::io;
 
 use ratatui::{
     crossterm::event::{self, KeyCode, KeyEventKind},
-    layout::{Constraint, Layout},
+    layout::{Alignment, Constraint, Direction, Layout},
     style::Stylize,
-    widgets::{Block, Paragraph},
+    widgets::{Block, Borders, Paragraph},
     DefaultTerminal, Frame,
 };
 
@@ -29,10 +29,16 @@ fn run(mut terminal: DefaultTerminal) -> io::Result<()> {
 }
 
 fn draw(frame: &mut Frame) {
-    let [left, right] = Layout::horizontal([Constraint::Fill(1); 2]).areas(frame.area());
-    let [top_right, bottom_right] = Layout::vertical([Constraint::Fill(1); 2]).areas(right);
+    let area = frame.area();
+    let layout = Layout::vertical([Constraint::Ratio(1, 10), Constraint::Ratio(8, 10)]);
+    let [search, results] = layout.areas(area);
 
-    frame.render_widget(Block::bordered().title("Left"), left);
-    frame.render_widget(Block::bordered().title("Top"), top_right);
-    frame.render_widget(Block::bordered().title("Bottom Right"), bottom_right);
+    frame.render_widget(
+        Block::default()
+            .title("Search")
+            .title_alignment(Alignment::Center)
+            .borders(Borders::ALL),
+        search,
+    );
+    frame.render_widget(Block::default().borders(Borders::ALL), results);
 }
